@@ -2,13 +2,11 @@
 
 //the Select  needs to be in the array object of value and label have to map the city data to this object
 //example of the data from select-react
-const options = [
+export const options = [
   { value: "chocolate", label: "Chocolate" },
   { value: "strawberry", label: "Strawberry" },
   { value: "vanilla", label: "Vanilla" },
 ];
-//https://stackoverflow.com/questions/43572436/sort-an-array-of-objects-in-react-and-render-them
-//getSelectDataList.sort((a, b) => (a.label > b.label ? 1 : -1));
 
 export const quizData = [
   {
