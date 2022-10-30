@@ -11,8 +11,10 @@ function App() {
   });
   const [answerData, setAnswerData] = useState();
   const allData = quizData;
+  let answer;
 
   const onClickHandlerNewGame = () => {
+    CreateAnswerData(); //run the select array only a temporary place
     // console.log("onClickHandlerNewGame", "triggered");
     let length = allData.length;
     let min = 0;
@@ -24,14 +26,58 @@ function App() {
     console.log("gameData ", gameData.Q + " " + gameData.A);
   };
 
+  const CreateAnswerData = () => {
+    //map the data to an array of value label objects
+    const list = allData.map((item) => ({ value: item.A, label: item.A }));
+    //  sort by String property ASCENDING (A - Z)
+    const listSorted = [...list].sort((a, b) => (a.value > b.value ? 1 : -1));
+    console.log("CreateSelectData list", listSorted);
+    setAnswerData(listSorted); //pass to the state
+  };
+
+  //for the dropdown select https://blog.logrocket.com/getting-started-with-react-select/
+  const selectCustomStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      borderBottom: "1px solid green",
+      color: state.isSelected ? "yellow" : "black",
+      backgroundColor: state.isSelected ? "green" : "white",
+      padding: "0px",
+    }),
+  };
+
+  const newplaceholder = () => {
+    return answer ? "Select an Answer " + answer : "Select an Answer";
+  };
+
+  const handleAnswerChange = (e) => {
+    console.log(" handleChange Answer Selected!!", e.value);
+    answer = e.value;
+  };
+
   return (
     <div className='App'>
-      <button
-        className='buttonSubmit btn btn-default'
-        onClick={onClickHandlerNewGame}
-      >
-        Choose a random Question
-      </button>
+      <div className='row'>
+        <div className='col-sm'>
+          <button
+            className='buttonSubmit btn btn-default'
+            onClick={onClickHandlerNewGame}
+          >
+            Choose a random Question
+          </button>
+        </div>
+        <div className='col-sm'>
+          <Select
+            styles={selectCustomStyles}
+            options={answerData}
+            className='selectDropDownStyle'
+            value={answer}
+            onChange={handleAnswerChange}
+            placeholder={newplaceholder()} //'Select the place'
+            controlShouldRenderValue={true}
+          />
+        </div>
+      </div>
     </div>
   );
 }
