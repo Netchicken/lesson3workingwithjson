@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { quizData } from "./Assets/quiz";
 import Select from "react-select";
 
 function App() {
+  const allData = quizData;
+  const allAnswers = [];
+  useEffect(() => {
+    CreateAnswerData(); //run the select array
+  }, []);
+
   const [gameData, setGameData] = useState({
     //for the game being currently played
     Q: "Start",
     A: "Start",
   });
   const [answerData, setAnswerData] = useState();
-  const allData = quizData;
+
   let answer;
 
   const onClickHandlerNewGame = () => {
-    CreateAnswerData(); //run the select array only a temporary place
     // console.log("onClickHandlerNewGame", "triggered");
     let length = allData.length;
     let min = 0;
@@ -32,7 +37,7 @@ function App() {
     //  sort by String property ASCENDING (A - Z)
     const listSorted = [...list].sort((a, b) => (a.value > b.value ? 1 : -1));
     console.log("CreateSelectData list", listSorted);
-    setAnswerData(listSorted); //pass to the state
+   setAnswerData(listSorted); //pass to the state
   };
 
   //for the dropdown select https://blog.logrocket.com/getting-started-with-react-select/
@@ -51,7 +56,7 @@ function App() {
   };
 
   const handleAnswerChange = (e) => {
-    console.log(" handleChange Answer Selected!!", e.value);
+    console.log(" handleAnswerChange Answer Selected!!", e.value);
     answer = e.value;
   };
 
